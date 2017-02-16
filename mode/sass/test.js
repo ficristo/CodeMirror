@@ -73,6 +73,16 @@
      "[tag h2][variable-3 :before]",
      "  [property content][operator :] [string \"::\"]")
 
+  MT("selectors",
+     "*::[meta -webkit-][tag input-placeholder]",
+     "  [property color]: [number #666]",
+     "*:[meta -moz-][tag placeholder]",
+     "  [property opacity]: [number 1][unit px]",
+     "[tag input]::[meta -ms-][tag clear]",
+     "  [property display]: [atom none]",
+     "[tag input]:[meta -webkit-][tag autofill] ",
+     "  [meta -webkit-][property box-shadow]:[number 0] [number 0] [number 5][unit px] [number #5cd053], [atom inset] [number 0] [number 0] [number 0] [number 50][unit px] [atom rgb]([number 255],[number 255],[number 255]) [keyword !important]")
+
   MT("definition_mixin_equal",
      "[variable-2 $defined-bs-type][operator :] [atom border-box] [keyword !default]",
      "[meta =bs][operator (][variable-2 $bs-type][operator :] [variable-2 $defined-bs-type][operator )]",
@@ -119,8 +129,9 @@
      "[def @font-face]",
      "  [property font-family][operator :] [string 'icomoon']",
      "  [property src][operator :] [atom url][operator (][string fonts/icomoon.ttf][operator )]")
-  
-  //Load Libs SASS
+
+/*
+//Load Libs SASS
 @import "fonts"
 
 *::-webkit-input-placeholder
@@ -196,4 +207,5 @@ body
 
 //ALWAYS END
 @import "media.sass"
+*/
 })();

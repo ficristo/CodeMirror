@@ -119,4 +119,81 @@
      "[def @font-face]",
      "  [property font-family][operator :] [string 'icomoon']",
      "  [property src][operator :] [atom url][operator (][string fonts/icomoon.ttf][operator )]")
+  
+  //Load Libs SASS
+@import "fonts"
+
+*::-webkit-input-placeholder
+	color: #666
+	opacity: 1
+
+*:-moz-placeholder
+	color: #666
+	opacity: 1
+
+*::-moz-placeholder
+	color: #666
+	opacity: 1
+
+*:-ms-input-placeholder
+	color: #666
+	opacity: 1
+
+input::-ms-clear
+   display: none
+
+input:-webkit-autofill 
+	-webkit-box-shadow:0 0 5px #5cd053, inset 0 0 0 50px rgb(255,255,255) !important
+
+input,
+button,
+textarea
+	outline: 0
+
+body input:focus:required:invalid,
+body textarea:focus:required:invalid
+	color: #666
+body input:required:valid,
+body textarea:required:valid
+	color: #666
+
+body
+	font-size: 16px
+	min-width: 320px
+	position: relative
+	line-height: 1.6
+	font-family: "RobotoRegular", sans-serif
+	overflow-x: hidden
+
+.hidden
+	display: none
+
+.clr
+	clear: both
+
+.container
+	margin-right: auto
+	margin-left: auto
+
+@media (min-width: 768px) 
+	.container 
+		width: 750px;
+
+@media (min-width: 992px) 
+	.container 
+		width: 970px;
+
+@media (min-width: 1200px)
+	.container
+		width: 1170px;
+	
+.container-fluid
+	margin-right: auto
+	margin-left: auto
+
+//Custom Styles Here
+
+
+//ALWAYS END
+@import "media.sass"
 })();

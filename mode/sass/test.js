@@ -74,13 +74,13 @@
      "  [property content][operator :] [string \"::\"]")
 
   MT("selectors",
-     "*::[meta -webkit-][tag input-placeholder]",
+     "*::[meta -webkit-][variable-3 input-placeholder]",
      "  [property color]: [number #666]",
-     "*:[meta -moz-][tag placeholder]",
+     "*:[meta -moz-][variable-3 placeholder]",
      "  [property opacity]: [number 1][unit px]",
-     "[tag input]::[meta -ms-][tag clear]",
+     "[tag input]::[meta -ms-][variable-3 clear]",
      "  [property display]: [atom none]",
-     "[tag input]:[meta -webkit-][tag autofill] ",
+     "[tag input]:[meta -webkit-][variable-3 autofill] ",
      "  [meta -webkit-][property box-shadow]:[number 0] [number 0] [number 5][unit px] [number #5cd053], [atom inset] [number 0] [number 0] [number 0] [number 50][unit px] [atom rgb]([number 255],[number 255],[number 255]) [keyword !important]")
 
   MT("definition_mixin_equal",

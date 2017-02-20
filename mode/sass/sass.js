@@ -125,6 +125,10 @@ CodeMirror.defineMode("sass", function(config) {
       return "meta";
     }
     stream.match(/[\w-]+/);
+    if (isEndLine(stream)) {
+      indent(state);
+      state.cursorHalf = 0;
+    }
     state.tokenizer = tokenBase;
     return "variable-3";
   }
@@ -290,12 +294,12 @@ CodeMirror.defineMode("sass", function(config) {
           if (propertyKeywords.hasOwnProperty(prop) ||
               propertyKeywords.hasOwnProperty(word) ||
               fontProperties.hasOwnProperty(word)) {
-            indent(state);
             state.cursorHalf = 1;
             state.prevProp = stream.current().toLowerCase();
-            return "property"
+            return "property";
           }
 
+          indent(state);
           return "tag";
         }
         else if(stream.match(/ *,/,false)){
@@ -310,9 +314,6 @@ CodeMirror.defineMode("sass", function(config) {
       if(ch === ":"){
         if (stream.match(pseudoElementsRegexp, false)){ // could be a pseudo-element
           state.tokenizer = pseudoToken;
-          if (isEndLine(stream)) {
-            state.cursorHalf = 0;
-          }
           return null;
         }
         stream.next();

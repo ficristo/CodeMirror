@@ -204,4 +204,45 @@ body
 //ALWAYS END
 @import "media.sass"
 */
+  
+  $omni: 20px;
+
+// Our two dimentional list
+$horses: (pony #996633)
+         (horse Pink)
+         (mini-horse #333)
+         (maxi-pony #cc9849);
+
+// Base styles for the horses
+[class^="horses"] {
+  background-size: 100%;
+  background-repeat: no-repeat;
+  float: left;
+  border: solid $omni #fff;
+  border-width: 0 $omni 0 0;
+  height: 200px;
+  width: 25%;
+}
+
+// Horse loop
+@each $horse in $horses {
+  .horses--#{nth($horse, 1)} {
+    background-color: nth($horse, 2);
+    background-image: url('http://hilja.net/i/#{nth($horse, 1)}.png');
+  }
+}
+
+// Just some reset stuff
+body {
+  font-family: sans-serif;
+  margin: $omni 0 $omni $omni;
+}
+ 
+ 
+ //*****************************
+ $class-slug: for !default
+
+@for $i from 1 through 4
+  .#{$class-slug}-#{$i}
+    width: 60px + $i
 })();

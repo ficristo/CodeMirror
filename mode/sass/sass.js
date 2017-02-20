@@ -29,7 +29,7 @@ CodeMirror.defineMode("sass", function(config) {
                    "\\!=", "/", "\\*", "%", "and", "or", "not", ";","\\{","\\}",":"];
   var opRegexp = tokenRegexp(operators);
 
-  var pseudoElementsRegexp = /^::?[a-zA-Z_][\w\-]*/;
+  var pseudoElementsRegexp = /^::?[a-zA-Z_-][\w\-]*/;
 
   var word;
 
@@ -43,12 +43,12 @@ CodeMirror.defineMode("sass", function(config) {
     if (ch === ")") {
       stream.next();
       state.tokenizer = tokenBase;
-      return "operator";
+      return null;
     } else if (ch === "(") {
       stream.next();
       stream.eatSpace();
 
-      return "operator";
+      return null;
     } else if (ch === "'" || ch === '"') {
       state.tokenizer = buildStringTokenizer(stream.next());
       return "string";
@@ -96,7 +96,7 @@ CodeMirror.defineMode("sass", function(config) {
       } else if (nextChar === "#" && peekChar === "{") {
         state.tokenizer = buildInterpolationTokenizer(stringTokenizer);
         stream.next();
-        return "operator";
+        return null;
       } else {
         return "string";
       }
@@ -110,11 +110,23 @@ CodeMirror.defineMode("sass", function(config) {
       if (stream.peek() === "}") {
         stream.next();
         state.tokenizer = currentTokenizer;
-        return "operator";
+        return null;
       } else {
         return tokenBase(stream, state);
       }
     };
+  }
+
+  function pseudoToken(stream, state) {
+    if (stream.match(/::?/)) {
+      return "variable-3";
+    }
+    if (stream.match(/^-\w+-/)) {
+      return "meta";
+    }
+    stream.match(/[\w-]+/);
+    state.tokenizer = tokenBase;
+    return "variable-3";
   }
 
   function indent(state) {
@@ -148,7 +160,7 @@ CodeMirror.defineMode("sass", function(config) {
     // Interpolation
     if (stream.match("#{")) {
       state.tokenizer = buildInterpolationTokenizer(tokenBase);
-      return "operator";
+      return null;
     }
 
     // Strings
@@ -265,11 +277,19 @@ CodeMirror.defineMode("sass", function(config) {
           }
           return "tag";
         }
-        else if(stream.match(/ *:/,false)){
-          indent(state);
-          state.cursorHalf = 1;
-          state.prevProp = stream.current().toLowerCase();
-          return "property";
+        else if (stream.match(/ *:/,false)) {
+          word = stream.current().toLowerCase();
+          var prop = state.prevProp + "-" + word;
+          if (propertyKeywords.hasOwnProperty(prop) ||
+              propertyKeywords.hasOwnProperty(word) ||
+              fontProperties.hasOwnProperty(word)) {
+            indent(state);
+            state.cursorHalf = 1;
+            state.prevProp = stream.current().toLowerCase();
+            return "property"
+          }
+
+          return "tag";
         }
         else if(stream.match(/ *,/,false)){
           return "tag";
@@ -281,12 +301,16 @@ CodeMirror.defineMode("sass", function(config) {
       }
 
       if(ch === ":"){
-        if (stream.match(pseudoElementsRegexp)){ // could be a pseudo-element
-          return "variable-3";
+        if (stream.match(pseudoElementsRegexp, false)){ // could be a pseudo-element
+          state.tokenizer = pseudoToken;
+          if (isEndLine(stream)) {
+            state.cursorHalf = 0;
+          }
+          return null;
         }
         stream.next();
         state.cursorHalf=1;
-        return "operator";
+        return null;
       }
 
     } // cursorHalf===0 ends here
@@ -348,14 +372,14 @@ CodeMirror.defineMode("sass", function(config) {
       if (ch === "!") {
         stream.next();
         state.cursorHalf = 0;
-        return stream.match(/^[\w]+/) ? "keyword": "operator";
+        return stream.match(/^[\w]+/) ? "keyword": null;
       }
 
       if (stream.match(opRegexp)){
         if (isEndLine(stream)) {
           state.cursorHalf = 0;
         }
-        return "operator";
+        return null;
       }
 
       // attributes
@@ -383,9 +407,6 @@ CodeMirror.defineMode("sass", function(config) {
       }
 
     } // else ends here
-
-    if (stream.match(opRegexp))
-      return "operator";
 
     // If we haven't returned by now, we move 1 character
     // and return an error

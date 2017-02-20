@@ -65,14 +65,13 @@
      "[tag h1]",
      "  [property font-size]: [number 2.5][unit em]")
 
+  // CSS doesn't highlight the : in pseudo selectors.
   MT("selector",
-     // SCSS doesn't highlight the :
-     // "[tag h1]:[variable-3 before],",
-     // "[tag h2]:[variable-3 before]",
      "[tag h1][variable-3 :before],",
      "[tag h2][variable-3 :before]",
      "  [property content]: [string \"::\"]")
 
+  // CSS doesn't highlight the : in pseudo selectors.
   MT("selectors",
      "*[variable-3 ::][meta -webkit-][variable-3 input-placeholder]",
      "  [property color]: [number #666]",
@@ -96,9 +95,7 @@
      "  [property box-sizing]: [variable-2 $bs-type]")
 
   MT("numbers_start_dot_include_plus",
-     // The % is not highlighted correctly
-     // "[meta =button-links]([variable-2 $button-base]: [atom darken]([variable-2 $color11], [number 10][unit %]))",
-     "[meta =button-links]([variable-2 $button-base]: [atom darken]([variable-2 $color11], [number 10]%))",
+     "[meta =button-links]([variable-2 $button-base]: [atom darken]([variable-2 $color11], [number 10][unit %]))",
      "  [property padding]: [number .3][unit em] [number .6][unit em]",
      "  [variable-3 +border-radius]([number 8][unit px])",
      "  [property background-color]: [variable-2 $button-base]")
@@ -107,11 +104,10 @@
      "[qualifier .bar]",
      "  [def @include] [tag border-radius]([number 8][unit px])")
 
+  // CSS doesn't highlight the : in pseudo selectors.
   MT("reference_parent",
      "[qualifier .col]",
      "  [property clear]: [atom both]",
-     // SCSS doesn't highlight the :
-     // "  &:[variable-3 after]",
      "  &[variable-3 :after]",
      "    [property content]: [string '']",
      "    [property clear]: [atom both]")

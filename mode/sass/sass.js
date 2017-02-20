@@ -129,6 +129,15 @@ CodeMirror.defineMode("sass", function(config) {
     return "variable-3";
   }
 
+  function unitToken(stream, state) {
+    stream.match(/^\w+|%/);
+    if (isEndLine(stream)) {
+      state.cursorHalf = 0;
+    }
+    state.tokenizer = tokenBase;
+    return "unit";
+  }
+
   function indent(state) {
     if (state.indentCount == 0) {
       state.indentCount++;
@@ -212,12 +221,10 @@ CodeMirror.defineMode("sass", function(config) {
       }
 
       // Numbers
-      if (stream.match(/^-?[0-9\.]+/))
+      if (stream.match(/^-?[0-9\.]+/)) {
+        state.tokenizer = unitToken;
         return "number";
-
-      // Units
-      if (stream.match(/^(px|em|in)\b/))
-        return "unit";
+      }
 
       if (stream.match(keywordsRegexp))
         return "keyword";
@@ -329,18 +336,8 @@ CodeMirror.defineMode("sass", function(config) {
 
       // Numbers
       if (stream.match(/^-?[0-9\.]+/)){
-        if (isEndLine(stream)) {
-          state.cursorHalf = 0;
-        }
+        state.tokenizer = unitToken;
         return "number";
-      }
-
-      // Units
-      if (stream.match(/^(px|em|in)\b/)){
-        if (isEndLine(stream)) {
-          state.cursorHalf = 0;
-        }
-        return "unit";
       }
 
       if (stream.match(keywordsRegexp)){

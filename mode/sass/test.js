@@ -19,6 +19,12 @@
   MT("variable",
      "[variable-2 $page-width]: [number 800][unit px]")
 
+  MT("variable_2",
+     "[variable-2 $horses]: ([variable pony] [atom #996633])",
+     "         ([varialbe horse] [keyword Pink])",
+     "         ([varialbe mini-horse] [atom #333])",
+     "         ([varialbe maxi-pony] [atom #cc9849])")
+
   MT("global_attributes",
      "[tag body]",
      "  [property font]:",
@@ -126,6 +132,14 @@
      "  [property font-family]: [string 'icomoon']",
      "  [property src]: [atom url]([string fonts/icomoon.ttf])")
 
+  MT("each",
+     "[def @each] [variable-2 $horse] [tag in] [variable-2 $horses] {",
+     "  [qualifier .horses--]#{[variable nth]([variable-2 $horse], 1)} {",
+     "    [property background-color]: [variable nth]([variable-2 $horse], 2);",
+     "    [property background-image]: url([string 'http://hilja.net/i/]#{nth([variable-2 $horse], 1)}[string .png]');",
+     "  }",
+     "}")
+
 /*
 //Load Libs SASS
 @import "fonts"
@@ -204,8 +218,9 @@ body
 //ALWAYS END
 @import "media.sass"
 */
-  
-  $omni: 20px;
+
+/*
+$omni: 20px;
 
 // Our two dimentional list
 $horses: (pony #996633)
@@ -237,12 +252,13 @@ body {
   font-family: sans-serif;
   margin: $omni 0 $omni $omni;
 }
- 
- 
- //*****************************
- $class-slug: for !default
+*/
+
+/*
+$class-slug: for !default
 
 @for $i from 1 through 4
   .#{$class-slug}-#{$i}
     width: 60px + $i
+*/
 })();
